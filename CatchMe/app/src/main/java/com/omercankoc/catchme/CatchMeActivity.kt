@@ -8,11 +8,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_catch_me.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class CatchMeActivity : AppCompatActivity() {
 
     var score : Int = 0
     var imageViewArray = ArrayList<ImageView>()
@@ -21,27 +21,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_catch_me)
 
         AddImageViews()
         hideImages()
 
         object : CountDownTimer(60000,1000){
-            // Sure bittiginde gerceklesecek operasyon.
+            // Sure bittiginde...
             override fun onFinish() {
                 //
                 Time.text = "Time 0"
                 // Runnable durdur.
-
                 handler.removeCallbacks(runnable)
-                // Butun ImageView'lari gorunmez yap.
 
+                // Butun ImageView'lari gorunmez yap.
                 for(image in imageViewArray){
                     image.visibility = View.INVISIBLE
                 }
 
                 // Alert Operasyonu
-                val alert = AlertDialog.Builder(this@MainActivity)
+                val alert = AlertDialog.Builder(this@CatchMeActivity)
                 alert.setTitle("YOUR SCORE : $score")
                 alert.setMessage("Restart the game?")
 
@@ -51,15 +50,15 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 alert.setNegativeButton("No"){dialog, which ->
-                    Toast.makeText(this@MainActivity,"Your Score $score", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@CatchMeActivity,"Your Score $score", Toast.LENGTH_LONG).show()
                     finish()
                 }
                 alert.show()
             }
 
-            // Her bir birim zamanda gerceklesecek operasyon.
+            // Her bir birim zamanda kalan sureyi goster...
             override fun onTick(millisUntilFinished: Long) {
-                Time.text = "" + millisUntilFinished/1000
+                Time.text = "Time : ${millisUntilFinished/1000}"
             }
         }.start() // baslat.
 
@@ -90,7 +89,7 @@ class MainActivity : AppCompatActivity() {
     // Gorunur olan imageView'e tiklandiginda score degeri +1
     fun IncreaseScore(view : View){
         score++
-        Score.text = "$score"
+        Score.text = "Score : $score"
     }
 
     // imageView'lari Array'e ekle.
